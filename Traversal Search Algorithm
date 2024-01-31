@@ -1,0 +1,43 @@
+#include<stdio.h> 
+#include <string.h> 
+#define Maxload 1200 
+#define InitMoney 10000 
+#define ClosingDate 30 
+#define BasicIncome 1000 
+#define WaterPrice 5 
+#define WaterW 3 
+#define FoodPrice 10 
+#define FoodW 2 
+#define WaterCon_1 5 
+#define WaterCon_2 8 
+#define WaterCon_3 10 
+#define FoodCon_1 7 
+#define FoodCon_2 6 
+#define FoodCon_3 10 
+int weather[31] = 
+{0,2,2,1,3,1,2,3,1,2,2,3,2,1,2,2,2,3,3,2,2,1,1,2,1,3,2,1,1,2,2}; 
+int map[28][28]; 
+int WasteW; 
+int WasteF; 
+int Income; 
+void initmap() 
+{ 
+memset(map, 99, sizeof(map)); 
+map[1][2] = 1; map[1][25] = 1; 
+map[2][1] = 1; map[2][3] = 1; 
+map[3][2] = 1; map[3][4] = 1; 
+map[3][25] = 1; 
+map[4][3] = 1; map[4][5] = 1; map[4][24] = 1; map[4][25] = 1; 
+map[5][4] = 1; map[5][6] = 1; map[5][24] = 1; 
+map[6][5] = 1; map[6][7] = 1; map[6][23] = 1; map[6][24] = 1; 
+map[7][6] = 1; map[7][8] = 1; map[7][22] = 1; 
+map[8][7] = 1; map[8][9] = 1; map[8][22] = 1; 
+map[9][8] = 1; map[9][10] = 1; map[9][15] = 1; map[9][16] = 1; 
+map[9][17] = 1; map[9][21] = 1; map[9][22] = 1; 
+map[10][9] = 1; map[10][11] = 1; map[10][13] = 1; map[10][15] = 1; 
+map[11][10] = 1; map[11][12] = 1; map[11][13] = 1; 
+map[12][11] = 1; map[12][13] = 1; map[12][14] = 1; 
+map[13][10] = 1; map[13][11] = 1; map[13][12] = 1; map[13][14] = 1; 
+map[13][15] = 1; 
+map[14][12] = 1; map[14][13] = 1; map[14][15] = 1; map[14][16] = 1; 
+map[15][9] = 1; map[15][10] = 1; map[15][13] = 1; map[15][14] = 1; 

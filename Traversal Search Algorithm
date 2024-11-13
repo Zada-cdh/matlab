@@ -41,3 +41,249 @@ map[13][10] = 1; map[13][11] = 1; map[13][12] = 1; map[13][14] = 1;
 map[13][15] = 1; 
 map[14][12] = 1; map[14][13] = 1; map[14][15] = 1; map[14][16] = 1; 
 map[15][9] = 1; map[15][10] = 1; map[15][13] = 1; map[15][14] = 1; 
+map[15][16] = 1; 
+map[16][9] = 1; map[16][14] = 1; map[16][15] = 1; map[16][17] = 1; 
+map[16][18] = 1; 
+map[17][9] = 1; map[17][16] = 1; map[17][18] = 1; map[17][21] = 1; 
+map[18][16] = 1; map[18][17] = 1; map[18][19] = 1; map[18][20] = 1; 
+map[19][18] = 1; map[19][20] = 1; 
+map[20][18] = 1; map[20][19] = 1; map[20][21] = 1; 
+map[21][9] = 1; map[21][17] = 1; map[21][20] = 1; map[21][22] = 1;  
+map[21][23] = 1; map[21][27] = 1; 
+map[22][7] = 1; map[22][8] = 1; map[22][9] = 1; map[22][21] = 1; 
+map[22][23] = 1; 
+map[23][6] = 1; map[23][21] = 1; map[23][22] = 1; map[23][24] = 1; 
+map[23][26] = 1; 
+map[24][4] = 1; map[24][5] = 1; map[24][6] = 1; map[24][23] = 1; 
+map[24][25] = 1; map[24][26] = 1; 
+map[25][1] = 1; map[25][3] = 1; map[25][4] = 1; map[25][24] = 1; 
+map[25][26] = 1; 
+map[26][23] = 1; map[26][24] = 1; map[26][25] = 1; map[26][27] = 1; 
+map[27][21] = 1; map[27][26] = 1; 
+for (int i=1;i<=27;i++) 
+{ 
+map[i][i] = 0; 
+} 
+} 
+void check() 
+{ 
+int i,j; 
+int flag = 1; 
+for (i=1;i<=27;i++) 
+for (j=1;j<=27;j++) 
+if(map[i][j]==1) 
+if(map[j][i]!=1) 
+{ 
+printf("map[%d][%d]数据错误\n",i,j); 
+flag =0; 
+} 
+if(flag==1) 
+printf("地图数据无误\n"); 
+} 
+void dijkstra(int vs,int m) 
+{ 
+int i,j,k; 
+int min;
+ int tmp; 
+    int flag[28]; 
+    int prev[28],dist[28]; 
+    int INF = 1000; 
+    for (i = 1; i < 28; i++) 
+    { 
+        flag[i] = 0; 
+        prev[i] = 0; 
+        dist[i] = map[vs][i]; 
+    } 
+    flag[vs] = 1; 
+    dist[vs] = 0; 
+    for (i = 1; i < 28; i++) 
+    { 
+        min = INF; 
+        for (j = 1; j < 28; j++) 
+        { 
+            if (flag[j]==0 && dist[j]<min) 
+            { 
+                min = dist[j]; 
+                k = j; 
+            } 
+        } 
+        flag[k] = 1; 
+        for (j = 1; j < 28; j++) 
+        { 
+            tmp = (map[k][j]==INF ? INF : (min + map[k][j])); 
+            if (flag[j] == 0 && (tmp  < dist[j]) ) 
+            { 
+                dist[j] = tmp; 
+                prev[j] = k; 
+            } 
+        } 
+    } 
+    printf("shortest(%d, %d)=%d\n",vs,m,dist[m]); 
+} 
+void start() 
+{ 
+    int day = 11; 
+    int flag = 2; 
+    int distance = 0; 
+    int Load; 
+    int Over; 
+    //WasteW = 32;WasteF = 24;Income = 0;Load =0;
+ for (int x=11;x<=21;x++) 
+    { 
+        WasteW = 32;WasteF = 24;Income = 0;Load =0; 
+        day=11;flag = 2;distance = 0;Over =0; 
+        while (day <= 25) 
+        { 
+            if (day == x) 
+                flag = 1; 
+            if(flag == 1) 
+            { 
+                switch(weather[day]) 
+                { 
+                    case 1: 
+                        Load+=((WaterCon_1*2*3)+(FoodCon_1*2*2)); 
+                        if(Load > 1200) 
+                        { 
+                            printf("day=%d时，资源不足以继续赶路\n",day); 
+                            Load-=((WaterCon_1*3)+(FoodCon_1*2)); 
+                            if (Load > 1200) 
+                            { 
+                                printf("day=%d时，资源不足以继续存活
+\n",day); 
+                                Over=1; 
+                            } 
+                            break; 
+                        } 
+                        WasteW+=(WaterCon_1*2); 
+                        WasteF+=(FoodCon_1*2); 
+                        distance+=1; 
+                        break; 
+                    case 2: 
+                        Load+=((WaterCon_2*2*3)+(FoodCon_2*2*2)); 
+                        if(Load > 1200) 
+                        { 
+                            printf("day=%d时，资源不足以继续赶路\n",day); 
+                            Load-=((WaterCon_2*3)+(FoodCon_2*2)); 
+                            if (Load > 1200) 
+                            { 
+                                printf("day=%d时，资源不足以继续存活
+\n",day); 
+                                Over=1; 
+                            } 
+                            break; 
+                        } 
+  WasteW+=(WaterCon_2*2); 
+                        WasteF+=(FoodCon_2*2); 
+                        distance+=1; 
+                        break; 
+                    case 3: 
+                        Load+=((WaterCon_3*3)+(FoodCon_3*2)); 
+                        if(Load > 1200) 
+                        { 
+                            printf("day=%d时，资源不足以继续存活\n",day); 
+                            Over=1; 
+                            break; 
+                        } 
+                        WasteW+=WaterCon_3; 
+                        WasteF+=FoodCon_3; 
+                        break; 
+                } 
+            } 
+            else if (flag == 2) 
+            { 
+                switch(weather[day]) 
+                { 
+                    case 1: 
+                        Load+=((WaterCon_1*3*3)+(FoodCon_1*3*2)); 
+                        if(Load > 1200) 
+                        { 
+                            printf("day=%d时，资源不足以继续开矿\n",day); 
+                            Load-=((WaterCon_1*2*3)+(FoodCon_1*2*2)); 
+                            if (Load > 1200) 
+                            { 
+                                printf("day=%d时，资源不足以继续存活
+\n",day); 
+                                Over=1; 
+                            } 
+                            break; 
+                        } 
+                        WasteW+=(WaterCon_1*3); 
+                        WasteF+=(FoodCon_1*3); 
+                        Income+=BasicIncome; 
+                        break; 
+                    case 2: 
+                        Load+=((WaterCon_2*3*3)+(FoodCon_2*3*2)); 
+                        if(Load > 1200) 
+                        { 
+                            printf("day=%d时，资源不足以继续开矿\n",day); 
+  Load-=((WaterCon_2*2*3)+(FoodCon_2*2*2)); 
+                            if (Load > 1200) 
+                            { 
+                                printf("day=%d时，资源不足以继续存活
+\n",day); 
+                                Over=1; 
+                            } 
+                            break; 
+                        } 
+                        WasteW+=(WaterCon_2*3); 
+                        WasteF+=(FoodCon_2*3); 
+                        Income+=BasicIncome; 
+                        break; 
+                    case 3: 
+                        Load+=((WaterCon_3*3*3)+(FoodCon_3*3*2)); 
+                        if(Load > 1200) 
+                        { 
+                            printf("day=%d时，资源不足以继续开矿\n",day); 
+                            Load-=((WaterCon_3*2*3)+(FoodCon_3*2*2)); 
+                            if (Load > 1200) 
+                            { 
+                                printf("day=%d时，资源不足以继续存活
+\n",day); 
+                                Over=1; 
+                            } 
+                            break; 
+                        } 
+                        WasteW+=(WaterCon_3*3); 
+                        WasteF+=(FoodCon_3*3); 
+                        Income+=BasicIncome; 
+                        break; 
+                } 
+            } 
+            //printf("x=%d,day=%d,消耗水%d箱，消耗食物%d箱
+\n",x,day,WasteW,WasteF); 
+            //if (distance ==  6) 
+                //printf("赶路到村庄，消耗水%d箱，消耗食物%d箱
+\n",WasteW,WasteF); 
+            //if (distance == 8 ) 
+                //printf("赶路到矿场，消耗水%d箱，消耗食物%d箱
+\n",WasteW,WasteF); 
+ 
+            if (distance == 2 && flag == 1) 
+            { 
+Load = 130; 
+printf("day=%d,到达村庄时已消耗水%d箱，消耗食物%d箱
+\n",day,WasteW,WasteF); 
+} 
+if (distance == 4 && flag == 1) 
+{ 
+flag = 2; 
+printf("day=%d,到达矿场\n",day); 
+} 
+if (Over == 1) 
+break; 
+day++; 
+} 
+if (Over==0) 
+printf("x=%d,消耗水%d 箱，消耗食物%d箱，收益合计%d元
+\n",x,WasteW,WasteF,Income-WasteW*3-WasteF*2); 
+else 
+printf("x=%d,无法存活\n",x); 
+} 
+} 
+int main() 
+{ 
+initmap(); 
+check(); 
+dijkstra(1,12); 
+start(); 
+}
